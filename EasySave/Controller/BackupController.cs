@@ -209,7 +209,7 @@ namespace EasySave.Controller
                         break;
 
                     case 5:
-                        // Code to change language (not implemented)
+                        // Code to change language 
                         break;
 
                     case 6: // Quit the application
