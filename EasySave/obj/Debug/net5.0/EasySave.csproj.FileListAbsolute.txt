@@ -1,0 +1,16 @@
+C:\Users\Rokhaya NDIAYE\Desktop\EasySave\EasySave\EasySave\obj\Debug\net5.0\EasySave.csproj.AssemblyReference.cache
+C:\Users\Rokhaya NDIAYE\Desktop\EasySave\EasySave\EasySave\obj\Debug\net5.0\EasySave.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Rokhaya NDIAYE\Desktop\EasySave\EasySave\EasySave\obj\Debug\net5.0\EasySave.AssemblyInfoInputs.cache
+C:\Users\Rokhaya NDIAYE\Desktop\EasySave\EasySave\EasySave\obj\Debug\net5.0\EasySave.AssemblyInfo.cs
+C:\Users\Rokhaya NDIAYE\Desktop\EasySave\EasySave\EasySave\obj\Debug\net5.0\EasySave.csproj.CoreCompileInputs.cache
+C:\Users\Rokhaya NDIAYE\Desktop\EasySave\EasySave\EasySave\bin\Debug\net5.0\EasySave.exe
+C:\Users\Rokhaya NDIAYE\Desktop\EasySave\EasySave\EasySave\bin\Debug\net5.0\EasySave.deps.json
+C:\Users\Rokhaya NDIAYE\Desktop\EasySave\EasySave\EasySave\bin\Debug\net5.0\EasySave.runtimeconfig.json
+C:\Users\Rokhaya NDIAYE\Desktop\EasySave\EasySave\EasySave\bin\Debug\net5.0\EasySave.runtimeconfig.dev.json
+C:\Users\Rokhaya NDIAYE\Desktop\EasySave\EasySave\EasySave\bin\Debug\net5.0\EasySave.dll
+C:\Users\Rokhaya NDIAYE\Desktop\EasySave\EasySave\EasySave\bin\Debug\net5.0\ref\EasySave.dll
+C:\Users\Rokhaya NDIAYE\Desktop\EasySave\EasySave\EasySave\bin\Debug\net5.0\EasySave.pdb
+C:\Users\Rokhaya NDIAYE\Desktop\EasySave\EasySave\EasySave\obj\Debug\net5.0\EasySave.dll
+C:\Users\Rokhaya NDIAYE\Desktop\EasySave\EasySave\EasySave\obj\Debug\net5.0\ref\EasySave.dll
+C:\Users\Rokhaya NDIAYE\Desktop\EasySave\EasySave\EasySave\obj\Debug\net5.0\EasySave.pdb
+C:\Users\Rokhaya NDIAYE\Desktop\EasySave\EasySave\EasySave\obj\Debug\net5.0\EasySave.genruntimeconfig.cache
