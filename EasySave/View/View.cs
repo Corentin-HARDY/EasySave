@@ -52,7 +52,7 @@ namespace EasySave.View
         public BackupJob GetBackupJobDetails()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Création d'un nouveau BackupJob");
+            Console.WriteLine("Création d'un nouveau travail de sauvegarde");
             Console.ResetColor();
 
             // Prompting for job details: name, source, and target
@@ -96,13 +96,13 @@ namespace EasySave.View
             if (backupJobs.Count == 0) // Check if the list is empty
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Aucun BackupJob n'est disponible.");
+                Console.WriteLine("Aucun travail de sauvegarde n'est disponible.");
                 Console.ResetColor();
                 return;
             }
 
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Liste des BackupJob disponibles : \n");
+            Console.WriteLine("Liste des travaux de sauvegarde disponibles : \n");
             Console.ResetColor();
 
             // Display table headers
@@ -134,7 +134,7 @@ namespace EasySave.View
         public void DisplayBackupJobsName(List<BackupJob> backupJobs)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Liste des BackupJob disponibles : \n");
+            Console.WriteLine("Liste des travaux de sauvegarde disponibles : \n");
             Console.ResetColor();
 
             Console.WriteLine($"{"Num",-4} {"Nom",-20} {"Type",-15}");
@@ -150,7 +150,7 @@ namespace EasySave.View
         // Prompt the user to enter the name of a BackupJob
         public string AskForBackupJobName()
         {
-            Console.Write("\nEntrez le nom du BackupJob : ");
+            Console.Write("\nEntrez le nom du travail de sauvegarde : ");
             return Console.ReadLine();
         }
     }

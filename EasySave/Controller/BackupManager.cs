@@ -82,6 +82,7 @@ namespace EasySave.Controller
                 switch (jobToExecute.BackupType)
                 {
                     case BackupType.FULL:
+                       
                         Console.WriteLine("\nExécution d'une sauvegarde complète...");
                         ExecuteFullBackup(jobToExecute);
                         break;
@@ -97,9 +98,32 @@ namespace EasySave.Controller
             }
             else
             {
-                return false; 
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"\nAucun travail de sauvegarde trouvé avec le nom '{jobName}'.");
+                Console.ResetColor();
+                return false;
             }
         }
+
+        // Execute in range
+        public void ExecuteBackupJobsInRange(string startName, string endName)
+        {
+            var startIndex = backupJobs.FindIndex(job => job.Name.Equals(startName, StringComparison.OrdinalIgnoreCase));
+            var endIndex = backupJobs.FindIndex(job => job.Name.Equals(endName, StringComparison.OrdinalIgnoreCase));
+
+            if (startIndex >= 0 && endIndex >= 0 && startIndex <= endIndex)
+            {
+                for (int i = startIndex; i <= endIndex; i++)
+                {
+                    ExecuteBackupJob(backupJobs[i].Name);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Plage de noms de travaux spécifiée invalide.");
+            }
+        }
+
 
         // Execute a full backupJop
         private void ExecuteFullBackup(BackupJob job)
@@ -120,7 +144,9 @@ namespace EasySave.Controller
                 file.CopyTo(targetFilePath, true); // true to overwrite an existing file
             }
 
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\nSauvegarde complète terminée avec succès.");
+            Console.ResetColor();
 
             // Update and save the state at the end of the full backup
             State state = new State
@@ -150,7 +176,9 @@ namespace EasySave.Controller
                 }
             }
 
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\nSauvegarde différentielle terminée avec succès.");
+            Console.ResetColor();
         }
 
         // Method to save the state of a backup

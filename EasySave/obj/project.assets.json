@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Rokhaya NDIAYE\\Desktop\\Bloc 2\\EasySave\\EasySave\\EasySave.csproj",
+      "projectUniqueName": "C:\\Users\\Rokhaya NDIAYE\\Desktop\\EasySaveGit\\EasySave\\EasySave\\EasySave.csproj",
       "projectName": "EasySave",
-      "projectPath": "C:\\Users\\Rokhaya NDIAYE\\Desktop\\Bloc 2\\EasySave\\EasySave\\EasySave.csproj",
+      "projectPath": "C:\\Users\\Rokhaya NDIAYE\\Desktop\\EasySaveGit\\EasySave\\EasySave\\EasySave.csproj",
       "packagesPath": "C:\\Users\\Rokhaya NDIAYE\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Rokhaya NDIAYE\\Desktop\\Bloc 2\\EasySave\\EasySave\\obj\\",
+      "outputPath": "C:\\Users\\Rokhaya NDIAYE\\Desktop\\EasySaveGit\\EasySave\\EasySave\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
