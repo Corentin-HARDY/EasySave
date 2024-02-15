@@ -121,7 +121,36 @@ namespace EasySave.Controller
                     string elapsedTime = duration.ToString(@"hh\:mm\:ss");
 
                     // Vous devez calculer la taille totale de la sauvegarde, si nécessaire.
-                    string totalSize = "CalculezLaTaille"; // Remplacez cela par la logique de calcul réelle.
+                    string totalSize = CalculateFolderSizeAsString(LogLocation);
+
+                    static string CalculateFolderSizeAsString(string LogLocation)
+                    {
+                        long totalSize = 0;
+                        string[] fileNames = Directory.GetFiles(LogLocation, "*.*", SearchOption.AllDirectories);
+                        foreach (string fileName in fileNames)
+                        {
+                            FileInfo fileInfo = new FileInfo(fileName);
+                            totalSize += fileInfo.Length;
+                        }
+                        // Convertissez la taille totale en une chaîne de caractères lisible (Ko, Mo, Go selon la taille)
+                        return FormatSize(totalSize);
+                    }
+
+                    static string FormatSize(long bytes)
+                    {
+                        const int scale = 1024;
+                        string[] orders = new string[] { "Go", "Mo", "Ko", "octets" };
+                        long max = (long)Math.Pow(scale, orders.Length - 1);
+
+                        foreach (string order in orders)
+                        {
+                            if (bytes > max)
+                                return string.Format("{0:##.##} {1}", decimal.Divide(bytes, max), order);
+
+                            max /= scale;
+                        }
+                        return "0 octets";
+                    }
 
                     // Créer un objet Log avec les informations de la sauvegarde
                     Log backupLog = new Log(jobName, jobToExecute.Source, jobToExecute.Target, totalSize, startTime.ToString(), elapsedTime);
