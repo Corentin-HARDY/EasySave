@@ -10,12 +10,21 @@ namespace EasySave.Controller
     public class BackupManager
     {
         private List<BackupJob> backupJobs = new List<BackupJob>();
+        private View.View view;
+
+        //public BackupManager(View.View view)
+        //{
+        //    t
+        //    LoadBackupJobs();
+        //}
+
 
         // Path to the JSON file
         private readonly string filePath = "backupJobs.json";
 
-        public BackupManager()
+        public BackupManager(View.View view)
         {
+            this.view = view; // Pass the initialized view from outside
             // Load BackupJobs on startup
             LoadBackupJobs();
         }
@@ -53,7 +62,6 @@ namespace EasySave.Controller
         }
 
 
-
         // ----Fonctions------
 
         // Method to remove a BackupJob
@@ -71,27 +79,62 @@ namespace EasySave.Controller
         }
 
 
+        //LogFile Location
+        public static string LogLocation { get; set; } = @"C:\Temp";
+
+        public static void InitializeLogDirectory()
+        {
+            // Cela créera le dossier s'il n'existe pas déjà
+            Directory.CreateDirectory(LogLocation);
+        }
+
+
+
         // Method to execute a BackupJob
         public bool ExecuteBackupJob(string jobName)
         {
             var jobToExecute = backupJobs.FirstOrDefault(job => job.Name == jobName);
             if (jobToExecute != null)
             {
-                Console.WriteLine($"\nExécution du travail de sauvegarde '{jobName}'...");
+                Console.WriteLine("\n" + this.view.Language.GetMessage("ExecutingBackupJob") + $"'{jobName}'...");
+                DateTime startTime = DateTime.Now; // Capture le début de la sauvegarde
 
-                switch (jobToExecute.BackupType)
+                try
                 {
-                    case BackupType.FULL:
-                       
-                        Console.WriteLine("\nExécution d'une sauvegarde complète...");
-                        ExecuteFullBackup(jobToExecute);
-                        break;
-                    case BackupType.DIFFERENTIAL:
-                        Console.WriteLine("\nExécution d'une sauvegarde différentielle...");
-                        ExecuteDifferentialBackup(jobToExecute);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException("\nType de sauvegarde non supporté.");
+                    switch (jobToExecute.BackupType)
+                    {
+                        case BackupType.FULL:
+                            Console.WriteLine("\n" + this.view.Language.GetMessage("ExecutingFullBackup"));
+                            ExecuteFullBackup(jobToExecute);
+                            break;
+                        case BackupType.DIFFERENTIAL:
+                            Console.WriteLine("\n" + this.view.Language.GetMessage("ExecutingDifferentialBackup"));
+                            ExecuteDifferentialBackup(jobToExecute);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException("UnsupportedBackupType");
+                    }
+
+                    // Logique de journalisation ici
+                    DateTime endTime = DateTime.Now;
+                    TimeSpan duration = endTime - startTime;
+                    string elapsedTime = duration.ToString(@"hh\:mm\:ss");
+
+                    // Vous devez calculer la taille totale de la sauvegarde, si nécessaire.
+                    string totalSize = "CalculezLaTaille"; // Remplacez cela par la logique de calcul réelle.
+
+                    // Créer un objet Log avec les informations de la sauvegarde
+                    Log backupLog = new Log(jobName, jobToExecute.Source, jobToExecute.Target, totalSize, startTime.ToString(), elapsedTime);
+
+                    // Écrire dans le fichier de log
+                    backupLog.WriteToLogFile(LogLocation);
+                }
+                catch (Exception ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(this.view.Language.GetMessage($"\nUne erreur s'est produite lors de la sauvegarde : {ex.Message}"));
+                    Console.ResetColor();
+                    return false;
                 }
 
                 return true;
@@ -99,11 +142,12 @@ namespace EasySave.Controller
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"\nAucun travail de sauvegarde trouvé avec le nom '{jobName}'.");
+                Console.WriteLine("\n" + this.view.Language.GetMessage("NoBackupJobWithName") + $"'{jobName}'...");
                 Console.ResetColor();
                 return false;
             }
         }
+
 
         // Execute in range
         public void ExecuteBackupJobsInRange(string startName, string endName)
@@ -120,7 +164,7 @@ namespace EasySave.Controller
             }
             else
             {
-                Console.WriteLine("Plage de noms de travaux spécifiée invalide.");
+                Console.WriteLine("\n" + this.view.Language.GetMessage("InvalidJobNameRange"));
             }
         }
 
@@ -145,7 +189,7 @@ namespace EasySave.Controller
             }
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\nSauvegarde complète terminée avec succès.");
+            Console.WriteLine("\n" + this.view.Language.GetMessage("FullBackupCompletedSuccessfully"));
             Console.ResetColor();
 
             // Update and save the state at the end of the full backup
@@ -177,7 +221,7 @@ namespace EasySave.Controller
             }
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\nSauvegarde différentielle terminée avec succès.");
+            Console.WriteLine("\n" + this.view.Language.GetMessage("DifferentialBackupCompletedSuccessfully"));
             Console.ResetColor();
         }
 
@@ -210,5 +254,7 @@ namespace EasySave.Controller
             }
             return null;
         }
+
+
     }
 }

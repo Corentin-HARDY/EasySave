@@ -6,82 +6,79 @@ namespace EasySave.View
 {
     public class View
     {
+        Languages languages;
+        public Languages Language { get => languages; set => languages = value; }
+
         // Display the main menu
         public void DisplayMenu()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan; 
-            Console.WriteLine("Menu:");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine(this.Language.GetMessage("Menu"));
             Console.ResetColor();
 
-            // Displaying menu options
-            Console.WriteLine("1. Afficher les travaux de sauvegarde");
-            Console.WriteLine("2. Ajouter un travail de sauvegarde");
-            Console.WriteLine("3. Exécuter un travail de sauvegarde");
-            Console.WriteLine("4. Supprimer un travail de sauvegarde");
-            Console.WriteLine("5. Choisir une langue");
-            Console.WriteLine("6. Quitter");
+            Console.WriteLine("\n" + this.Language.GetMessage("DisplayBackupJobs"));
+            Console.WriteLine("\n" + this.Language.GetMessage("AddBackupJob"));
+            Console.WriteLine("\n" + this.Language.GetMessage("ExecuteBackupJob"));
+            Console.WriteLine("\n" + this.Language.GetMessage("DeleteBackupJob"));
+            Console.WriteLine("\n" + this.Language.GetMessage("ChooseLanguage"));
+            Console.WriteLine("\n" + this.Language.GetMessage("LogType"));
+            Console.WriteLine("\n" + this.Language.GetMessage("Quit"));
         }
 
-        // Get the user's choice from the menu
         public int GetUserChoice()
         {
             int choice = 0;
-            while (true) // Loop until a valid choice is made
+            while (true)
             {
-                Console.ForegroundColor = ConsoleColor.Yellow; 
-                Console.Write("\nEntrez votre choix : ");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write("\n" + this.Language.GetMessage("EnterYourChoice"));
                 Console.ResetColor();
 
-                // Try to parse the user input; if successful and within valid range, break out of the loop
-                if (int.TryParse(Console.ReadLine(), out choice) && choice >= 1 && choice <= 6)
+                if (int.TryParse(Console.ReadLine(), out choice) && choice >= 1 && choice <= 7)
                 {
                     break;
                 }
                 else
                 {
-                    // If the input is not valid, display an error message and continue the loop
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\nChoix invalide. Veuillez entrer un nombre entre 1 et 6.");
+                    Console.WriteLine("\n" + this.Language.GetMessage("InvalidChoicePleaseEnterNumber"));
+                    Console.ResetColor();
                 }
             }
             return choice;
         }
 
-        // Collect information to create a new BackupJob
         public BackupJob GetBackupJobDetails()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Création d'un nouveau travail de sauvegarde");
+            Console.WriteLine(this.Language.GetMessage("CreateBackupJob"));
             Console.ResetColor();
 
-            // Prompting for job details: name, source, and target
-            Console.Write("\nNom du travail : ");
+            Console.Write("\n" + this.Language.GetMessage("ChooseName"));
             string name = Console.ReadLine();
-            Console.Write("\nSource : ");
+            Console.Write("\n" + this.Language.GetMessage("Source"));
             string source = Console.ReadLine();
-            Console.Write("\nCible : ");
+            Console.Write("\n" + this.Language.GetMessage("Target"));
             string target = Console.ReadLine();
 
             BackupType backupType;
-            // Loop until a valid BackupType is entered
             while (true)
             {
-                Console.WriteLine("\nChoisissez le type de sauvegarde :");
-                Console.WriteLine(" - FULL");
-                Console.WriteLine(" - DIFFERENTIAL");
-                Console.Write("\nVotre choix : ");
+                Console.WriteLine("\n" + this.Language.GetMessage("BackupJobType"));
+                Console.WriteLine(this.Language.GetMessage("Full"));
+                Console.WriteLine(this.Language.GetMessage("Differential"));
+                Console.Write(this.Language.GetMessage("EnterYourChoice"));
                 string typeInput = Console.ReadLine().ToUpper();
 
-                // Try to parse the input to a BackupType
                 if (Enum.TryParse(typeInput, out backupType) && Enum.IsDefined(typeof(BackupType), backupType))
                 {
-                    break; // Break the loop if input is valid
+                    break;
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\nType de sauvegarde invalide. Veuillez saisir 'FULL' ou 'DIFFERENTIAL'.");
+                    Console.WriteLine("\n" + this.Language.GetMessage("InvalidBackupType"));
                     Console.ResetColor();
                 }
             }
@@ -89,69 +86,58 @@ namespace EasySave.View
             return new BackupJob(name, source, target, backupType);
         }
 
-
-        // Display a list of BackupJobs
         public void DisplayBackupJobs(List<BackupJob> backupJobs)
         {
-            if (backupJobs.Count == 0) // Check if the list is empty
+            if (backupJobs.Count == 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Aucun travail de sauvegarde n'est disponible.");
+                Console.WriteLine(this.Language.GetMessage("NoBackupJobs"));
                 Console.ResetColor();
                 return;
             }
 
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Liste des travaux de sauvegarde disponibles : \n");
+            Console.WriteLine(this.Language.GetMessage("BackupJobsList"));
             Console.ResetColor();
 
-            // Display table headers
-            Console.WriteLine($"{"Num",-4} {"Nom",-20} {"Source",-25} {"Cible",-25} {"Type",-15}");
-            Console.WriteLine(new string('-', 90)); // Separator
+            Console.WriteLine($"{"\n" + this.Language.GetMessage("Name"),-20} {this.Language.GetMessage("Src"),-25} {this.Language.GetMessage("Trg"),-25} {this.Language.GetMessage("Type"),-15}");
+            Console.WriteLine(new string('-', 80));
 
-            // Display each BackupJob in a formatted manner
             for (int i = 0; i < backupJobs.Count; i++)
             {
-                // Truncate paths to fit the display
                 string sourcePath = TruncatePath(backupJobs[i].Source, 22);
                 string targetPath = TruncatePath(backupJobs[i].Target, 22);
-
-                // Display the BackupJob details
-                Console.WriteLine($"{i + 1,-4} {backupJobs[i].Name,-20} {sourcePath,-25} {targetPath,-25} {backupJobs[i].BackupType,-15}");
+                Console.WriteLine($"{backupJobs[i].Name,-20} {sourcePath,-25} {targetPath,-25} {backupJobs[i].BackupType,-15}");
             }
         }
 
-        // Truncate a path if it exceeds a certain length
+        public void DisplayBackupJobsName(List<BackupJob> backupJobs)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(this.Language.GetMessage("BackupJobsList"));
+            Console.ResetColor();
+            Console.WriteLine($"{"\n" + this.Language.GetMessage("Name"),-20} {this.Language.GetMessage("Type"),-15}");
+
+            Console.WriteLine(new string('-', 30));
+
+            for (int i = 0; i < backupJobs.Count; i++)
+            {
+                Console.WriteLine($"{backupJobs[i].Name,-20} {backupJobs[i].BackupType,-15}");
+            }
+        }
+
+        public string AskForBackupJobName()
+        {
+            Console.Write("\n" + this.Language.GetMessage("EnterBackupJobName"));
+            return Console.ReadLine();
+        }
+
         static string TruncatePath(string path, int maxLength)
         {
             if (string.IsNullOrEmpty(path)) return path;
             if (path.Length <= maxLength) return path;
 
             return path.Substring(0, maxLength - 3) + "...";
-        }
-
-        // Display only the names of BackupJobs
-        public void DisplayBackupJobsName(List<BackupJob> backupJobs)
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Liste des travaux de sauvegarde disponibles : \n");
-            Console.ResetColor();
-
-            Console.WriteLine($"{"Num",-4} {"Nom",-20} {"Type",-15}");
-            Console.WriteLine(new string('-', 40)); // Separator
-
-            // Display each BackupJob name and type
-            for (int i = 0; i < backupJobs.Count; i++)
-            {
-                Console.WriteLine($"{i + 1,-4} {backupJobs[i].Name,-20} {backupJobs[i].BackupType,-15}");
-            }
-        }
-
-        // Prompt the user to enter the name of a BackupJob
-        public string AskForBackupJobName()
-        {
-            Console.Write("\nEntrez le nom du travail de sauvegarde : ");
-            return Console.ReadLine();
         }
     }
 }

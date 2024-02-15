@@ -1,0 +1,18 @@
+[
+  {
+    "Name": "Job",
+    "FileSource": "C:\\Test1\\test1.txt",
+    "FileTarget": "C:\\test2\\test1.txt",
+    "FileSize": 0,
+    "FileTransferTime": 3.4219,
+    "time": "14/02/2024 12:19:35"
+  },
+  {
+    "Name": "Job",
+    "FileSource": "C:\\Test1\\tets2.txt",
+    "FileTarget": "C:\\test2\\tets2.txt",
+    "FileSize": 0,
+    "FileTransferTime": 0.5258,
+    "time": "14/02/2024 12:19:35"
+  }
+]

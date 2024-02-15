@@ -8,16 +8,18 @@ namespace EasySave.Controller
     // Initialize the Controller class
     public class Controller
     {
+
         private Model.BackupJob model;
         private View.View view;
         private BackupManager backupManager;
+        Log logInstance = new Log();
 
         // Constructor initializing model, view, and the backup manager 
         public Controller(Model.BackupJob model, View.View view)
         {
             this.model = model;
             this.view = view;
-            this.backupManager = new BackupManager();
+            this.backupManager = new BackupManager(view);
         }
 
         // Create Add method
@@ -27,7 +29,7 @@ namespace EasySave.Controller
             if (backupManager.GetBackupJobs().Count >= 5)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nLimite maximale de 5 travaux de sauvegarde atteinte. Impossible d'ajouter de nouveaux travaux.");
+                Console.WriteLine(this.view.Language.GetMessage("MaxBackupJobsReached"));
                 Console.ResetColor();
                 return false;
             }
@@ -41,7 +43,7 @@ namespace EasySave.Controller
             catch (Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"\nÉchec de l'ajout du travail de sauvegarde: {ex.Message}");
+                Console.WriteLine("\n" + this.view.Language.GetMessage("AddBackupJobFailed") + " " + ex.Message);
                 Console.ResetColor();
                 return false;
             }
@@ -52,12 +54,82 @@ namespace EasySave.Controller
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Bienvenue sur EasySave !");
+            Console.WriteLine(this.view.Language.GetMessage("WelcomeEasySave"));
             Console.ResetColor();
-            Console.WriteLine("\nAppuyez sur Entrée pour afficher le menu...");
+            Console.WriteLine("\n" + this.view.Language.GetMessage("AccessMenu"));
             Console.ReadLine();
            
         }
+
+        // change language 
+        private void ChangeLanguage()
+        {
+            Console.WriteLine(this.view.Language.GetMessage("ChooseLangue"));
+            Console.WriteLine("\n" + this.view.Language.GetMessage("English"));
+            Console.WriteLine(this.view.Language.GetMessage("French"));
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("\n" + this.view.Language.GetMessage("EnterYourChoice"));
+            Console.ResetColor();
+            string choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    view.Language.CurrentLangue = ChooseLangue.En;
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.WriteLine("\nWelcome to the english version !");
+                    Console.ResetColor();
+                    break;
+                case "2":
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    view.Language.CurrentLangue = ChooseLangue.Fr;
+                    Console.WriteLine("\nBienvenue sur la version française !");
+                    Console.ResetColor();
+                    break;
+            }
+            view.Language.LoadPhrases();
+            Console.WriteLine("\n" + this.view.Language.GetMessage("PressKeyToReturnToMenu"));
+            Console.ReadKey();
+            view.DisplayMenu();
+        }
+
+
+        //Choose file type 
+        public void ChooseLogFormat()
+        {
+            Console.WriteLine(this.view.Language.GetMessage("LogFileFormat"));
+            Console.WriteLine("\n1. JSON");
+            Console.WriteLine("2. XML");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("\n" + this.view.Language.GetMessage("EnterYourChoice"));
+            Console.ResetColor();
+            string choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("\n" + this.view.Language.GetMessage("JSON"));
+                    Console.ResetColor();
+                    Console.WriteLine("\n" + this.view.Language.GetMessage("Path"));
+                    Console.WriteLine("\n" + this.view.Language.GetMessage("PressKeyToReturnToMenu"));
+                    Console.ReadKey();
+                    view.DisplayMenu();
+                    break;
+                case "2":
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("\n" + this.view.Language.GetMessage("XML"));
+                    Console.ResetColor();
+                    Console.WriteLine("\n" + this.view.Language.GetMessage("Path"));
+                    Console.WriteLine("\n" + this.view.Language.GetMessage("PressKeyToReturnToMenu"));
+                    Console.ReadKey();
+                    view.DisplayMenu();
+                    break;
+
+            }
+
+        }
+
 
         // Main method to run the application logic
         public void Run()
@@ -78,7 +150,7 @@ namespace EasySave.Controller
                         var backupJobs = backupManager.GetBackupJobs();
                         view.DisplayBackupJobs(backupJobs);
 
-                        Console.WriteLine("\nAppuyez sur une touche pour revenir au menu...");
+                        Console.WriteLine("\n" + this.view.Language.GetMessage("PressKeyToReturnToMenu"));
                         Console.ReadKey();
                         view.DisplayMenu();
                         break;
@@ -90,16 +162,17 @@ namespace EasySave.Controller
                         if (success)
                         {
                             Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("\nTravail de sauvegarde ajouté avec succès !");
+                            Console.WriteLine("\n" + this.view.Language.GetMessage("BackupJobAddedSuccessfully"));
+                            Console.ResetColor();
+                            Console.WriteLine("\n" + this.view.Language.GetMessage("PressKeyToReturnToMenu"));
                         }
                         else
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("\nÉchec de l'ajout du travail de sauvegarde.");
+                            Console.WriteLine("\n" + this.view.Language.GetMessage("BackupJobAddedFailed"));
                         }
                         Console.ResetColor();
-
-                        Console.WriteLine("\nAppuyez sur une touche pour revenir au menu...");
+                        Console.WriteLine("\n" + this.view.Language.GetMessage("\nPressKeyToReturnToMenu"));
                         Console.ReadKey();
 
                         view.DisplayMenu();
@@ -111,20 +184,20 @@ namespace EasySave.Controller
 
                         if (backupJobs.Count > 0)
                         {
-                            view.DisplayBackupJobs(backupJobs); // Assurez-vous que cette méthode affiche les jobs avec des indices ou des noms.
+                            view.DisplayBackupJobs(backupJobs); 
 
-                            Console.ForegroundColor = ConsoleColor.Cyan;
-                            Console.WriteLine("\nOptions d'exécution:");
+                            Console.ForegroundColor = ConsoleColor.DarkCyan;
+                            Console.WriteLine("\n" + this.view.Language.GetMessage("ExecutionOptions"));
                             Console.ResetColor();
-                            Console.WriteLine("\nEntrez les noms des travaux à exécuter séparés par ';' pour une sélection individuelle.");
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.WriteLine("Exemple: 'Job1;Job3' pour exécuter Job1 et Job3.");
+                            Console.WriteLine("\n" + this.view.Language.GetMessage("EnterBackupJobNames"));
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                            Console.WriteLine(this.view.Language.GetMessage("ExampleJobExecution"));
                             Console.ResetColor();
-                            Console.WriteLine("\nUtilisez '-' pour spécifier un intervalle.");
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.WriteLine("Exemple: 'Job1-Job3' pour exécuter Job1 à Job3.");
+                            Console.WriteLine("\n" + this.view.Language.GetMessage("UseDashForRange"));
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                            Console.WriteLine(this.view.Language.GetMessage("ExampleRangeExecution"));
                             Console.ResetColor();
-
+                            Console.Write("\n" + this.view.Language.GetMessage("EnterYourChoice"));
                             string input = Console.ReadLine();
 
                             // Traiter l'entrée pour des travaux individuels ou un intervalle
@@ -152,11 +225,11 @@ namespace EasySave.Controller
                         else
                         {
                             Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.WriteLine("Aucun travail de sauvegarde à exécuter.");
+                            Console.WriteLine("\n" + this.view.Language.GetMessage("NoBackupJobsToExecute"));
                             Console.ResetColor();
                         }
                        
-                        Console.WriteLine("\nAppuyez sur une touche pour revenir au menu...");
+                        Console.WriteLine("\n" + this.view.Language.GetMessage("PressKeyToReturnToMenu"));
                         Console.ReadKey();
                         view.DisplayMenu();
                         break;
@@ -174,25 +247,20 @@ namespace EasySave.Controller
                             {
                                 string jobName = view.AskForBackupJobName();
 
-                                if (string.IsNullOrWhiteSpace(jobName))
-                                {
-                                    Console.Clear();
-                                    view.DisplayMenu();
-                                    break; // Exit the loop, return to the menu
-                                }
-
                                 isRemoved = backupManager.RemoveBackupJob(jobName);
                                 if (isRemoved)
                                 {
                                     Console.ForegroundColor = ConsoleColor.Green;
-                                    Console.WriteLine("\nTravail de sauvegarde supprimé avec succès.");
+                                    Console.WriteLine("\n" + this.view.Language.GetMessage("BackupJobDeletedSuccessfully"));
                                     Console.ResetColor();
+                                    Console.WriteLine("\n" + this.view.Language.GetMessage("PressKeyToReturnToMenu"));
+                                    Console.ReadLine(); 
                                     break; // Exit the loop after successful deletion
                                 }
                                 else
                                 {
                                     Console.ForegroundColor = ConsoleColor.Red;
-                                    Console.WriteLine("\nAucun travail de sauvegarde trouvé avec ce nom. Veuillez réessayer ou laisser vide pour retourner au menu.");
+                                    Console.WriteLine("\n" + this.view.Language.GetMessage("NoBackupJobsFoundedWithName"));
                                     Console.ResetColor();
                                 }
 
@@ -201,7 +269,7 @@ namespace EasySave.Controller
                         else
                         {
                             Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.WriteLine("Aucun travail de sauvegarde disponible pour la suppression.");
+                            Console.WriteLine(this.view.Language.GetMessage("NoBackupJobsAvailableForDeletion"));
                             Console.ResetColor();
                         }
 
@@ -209,17 +277,25 @@ namespace EasySave.Controller
                         break;
 
                     case 5:
-                        // Code to change language 
+                        // Change languages
+                        Console.Clear();
+                        ChangeLanguage();
                         break;
 
-                    case 6: // Quit the application
+                    case 6:
+                        // Change type log
+                        Console.Clear();
+                        ChooseLogFormat();
+                           break;
+
+                    case 7: // Quit the application
                         quit = true;
                         break;
 
                     default:
 
                         Console.Clear();
-                        Console.Write("Choix invalide ! Appuyez sur une touche pour continuer...");
+                        Console.Write("\n" + this.view.Language.GetMessage("InvalidOption"));
                         Console.ReadKey();
                       Console.Clear();
                         break;

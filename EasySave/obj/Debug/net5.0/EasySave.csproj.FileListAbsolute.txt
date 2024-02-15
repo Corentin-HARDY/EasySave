@@ -30,3 +30,5 @@ C:\Users\Rokhaya NDIAYE\Desktop\EasySaveGit\EasySave\EasySave\obj\Debug\net5.0\E
 C:\Users\Rokhaya NDIAYE\Desktop\EasySaveGit\EasySave\EasySave\obj\Debug\net5.0\ref\EasySave.dll
 C:\Users\Rokhaya NDIAYE\Desktop\EasySaveGit\EasySave\EasySave\obj\Debug\net5.0\EasySave.pdb
 C:\Users\Rokhaya NDIAYE\Desktop\EasySaveGit\EasySave\EasySave\obj\Debug\net5.0\EasySave.genruntimeconfig.cache
+C:\Users\Rokhaya NDIAYE\Desktop\EasySaveGit\EasySave\EasySave\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\Rokhaya NDIAYE\Desktop\EasySaveGit\EasySave\EasySave\obj\Debug\net5.0\EasySave.csproj.CopyComplete
