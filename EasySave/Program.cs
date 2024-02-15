@@ -17,7 +17,6 @@ namespace EasySave
             view.Language = l;
             Controller.Controller controller = new Controller.Controller(model, view);
             BackupManager backupManager = new BackupManager(view);
-
             controller.Run();
         }
     }

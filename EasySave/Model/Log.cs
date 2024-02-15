@@ -28,7 +28,7 @@ namespace EasySave.Model
             ElapsedTime = elapsedTime;
         }
 
-        // Méthode pour écrire le log dans les deux formats
+        // Write Log file
         public void WriteToLogFile(string logLocation)
         {
             WriteToJsonFile(logLocation);
@@ -55,7 +55,7 @@ namespace EasySave.Model
                 Time = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
             };
 
-            // Si le fichier n'existe pas, créez-le avec un élément racine
+            // If the file does not exist create it 
             if (!File.Exists(filePath))
             {
                 var newDoc = new System.Xml.Linq.XDocument(
@@ -87,6 +87,7 @@ namespace EasySave.Model
             }
         }
 
+        // Format JSON file
         public override string ToString()
         {
             var logEntry = new
@@ -102,7 +103,7 @@ namespace EasySave.Model
             return JsonSerializer.Serialize(logEntry, new JsonSerializerOptions { WriteIndented = true });
         }
 
-        // Vous devrez définir la classe LogEntry pour la sérialisation XML
+        // For serilization XML
         public class LogEntry
         {
             public string Name { get; set; }

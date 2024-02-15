@@ -134,7 +134,7 @@ namespace EasySave.Controller
         // Main method to run the application logic
         public void Run()
         {
-            bool quit = false; // Flag to control the application loop
+            bool quit = false;
 
             // Display the welcome message and the main menu
             DisplayWelcome();
@@ -142,7 +142,7 @@ namespace EasySave.Controller
 
             while (!quit)
             {
-                int choice = view.GetUserChoice(); // Get user's menu choice
+                int choice = view.GetUserChoice(); 
                 switch (choice)
                 {
                     case 1: // Display backup jobs

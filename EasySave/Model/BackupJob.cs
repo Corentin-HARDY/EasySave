@@ -29,7 +29,6 @@ namespace EasySave.Model
         };
 
         // --- Constructors ---
-        // Constructor used in Programs.cs
         public BackupJob() { }
 
         // Constructor used to get BackupJob data from user()
@@ -41,8 +40,6 @@ namespace EasySave.Model
             this.BackupType = backupType; 
             State = null;
         }
-
-
 
     }
 }

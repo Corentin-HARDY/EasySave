@@ -3,6 +3,20 @@
     "Name": "t",
     "Source": "t",
     "Target": "t",
+    "BackupType": 1,
+    "State": null
+  },
+  {
+    "Name": "t",
+    "Source": "t",
+    "Target": "t",
+    "BackupType": 0,
+    "State": null
+  },
+  {
+    "Name": "t",
+    "Source": "t",
+    "Target": "t",
     "BackupType": 0,
     "State": null
   }

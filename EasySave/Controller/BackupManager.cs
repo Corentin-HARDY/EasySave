@@ -12,13 +12,6 @@ namespace EasySave.Controller
         private List<BackupJob> backupJobs = new List<BackupJob>();
         private View.View view;
 
-        //public BackupManager(View.View view)
-        //{
-        //    t
-        //    LoadBackupJobs();
-        //}
-
-
         // Path to the JSON file
         private readonly string filePath = "backupJobs.json";
 
@@ -97,7 +90,7 @@ namespace EasySave.Controller
             if (jobToExecute != null)
             {
                 Console.WriteLine("\n" + this.view.Language.GetMessage("ExecutingBackupJob") + $"'{jobName}'...");
-                DateTime startTime = DateTime.Now; // Capture le début de la sauvegarde
+                DateTime startTime = DateTime.Now; // Capture the start of the backupJob
 
                 try
                 {
@@ -120,7 +113,7 @@ namespace EasySave.Controller
                     TimeSpan duration = endTime - startTime;
                     string elapsedTime = duration.ToString(@"hh\:mm\:ss");
 
-                    // Vous devez calculer la taille totale de la sauvegarde, si nécessaire.
+                    // Calcul the total File size.
                     string totalSize = CalculateFolderSizeAsString(LogLocation);
 
                     static string CalculateFolderSizeAsString(string LogLocation)
@@ -132,7 +125,7 @@ namespace EasySave.Controller
                             FileInfo fileInfo = new FileInfo(fileName);
                             totalSize += fileInfo.Length;
                         }
-                        // Convertissez la taille totale en une chaîne de caractères lisible (Ko, Mo, Go selon la taille)
+                        // Get fileSize
                         return FormatSize(totalSize);
                     }
 
@@ -152,10 +145,10 @@ namespace EasySave.Controller
                         return "0 octets";
                     }
 
-                    // Créer un objet Log avec les informations de la sauvegarde
+                    // Create the go File
                     Log backupLog = new Log(jobName, jobToExecute.Source, jobToExecute.Target, totalSize, startTime.ToString(), elapsedTime);
 
-                    // Écrire dans le fichier de log
+                    // Write in the log File
                     backupLog.WriteToLogFile(LogLocation);
                 }
                 catch (Exception ex)

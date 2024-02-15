@@ -9,23 +9,22 @@ namespace EasySave.Model
 {
     public class Languages
     {
-
+        public ChooseLangue CurrentLangue { get => currentLangue; set => currentLangue = value; }
 
         private List<Phrase> phrases;
         string jsonFilePath = "";
-
         ChooseLangue currentLangue = ChooseLangue.Fr;
 
+        // Load sentences
         public Languages()
         {
-            // Charger les phrases à partir du fichier JSON
             LoadPhrases();
         }
 
-
+        // Load Phrases
         public void LoadPhrases()
         {
-            // Charger les phrases à partir du fichier JSON
+            // Load sentences from JSON
             switch (currentLangue)
             {
                 case ChooseLangue.En:
@@ -42,24 +41,21 @@ namespace EasySave.Model
                     }
                     jsonFilePath = "../../../Data/fr-FR.json";
                     break;
-                //default:
-                //    Console.WriteLine(GetMessage("Warning7"));
-                //    break;
-            }
 
+            }
 
             var jsonContent = File.ReadAllText(jsonFilePath);
             phrases = JsonSerializer.Deserialize<List<Phrase>>(jsonContent);
         }
-        public ChooseLangue CurrentLangue { get => currentLangue; set => currentLangue = value; }
 
+        //Get message from JSON file 
         public string GetMessage(string keyword)
         {
             
-                // Rechercher la phrase correspondante au mot-clé
+                //Lookup for sentence with keyword 
                 var phrase = phrases.FirstOrDefault(p => p.Keyword == keyword);
 
-                // Si la phrase est trouvée, retourner la valeur de la propriété "sentence", sinon retourner une chaîne vide
+                // return null
                 return phrase != null ? phrase.Sentence : string.Empty;
             
         }

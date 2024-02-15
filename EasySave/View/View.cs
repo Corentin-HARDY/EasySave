@@ -26,6 +26,7 @@ namespace EasySave.View
             Console.WriteLine("\n" + this.Language.GetMessage("Quit"));
         }
 
+        // Get user Choice
         public int GetUserChoice()
         {
             int choice = 0;
@@ -49,6 +50,7 @@ namespace EasySave.View
             return choice;
         }
 
+        // Get backupJob details
         public BackupJob GetBackupJobDetails()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -86,6 +88,7 @@ namespace EasySave.View
             return new BackupJob(name, source, target, backupType);
         }
 
+        //Display BackupJob List 
         public void DisplayBackupJobs(List<BackupJob> backupJobs)
         {
             if (backupJobs.Count == 0)
@@ -111,6 +114,7 @@ namespace EasySave.View
             }
         }
 
+        //Display backupJob name 
         public void DisplayBackupJobsName(List<BackupJob> backupJobs)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -126,6 +130,7 @@ namespace EasySave.View
             }
         }
 
+        // Ask For backupJob Name
         public string AskForBackupJobName()
         {
             Console.Write("\n" + this.Language.GetMessage("EnterBackupJobName"));
